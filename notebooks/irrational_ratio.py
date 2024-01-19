@@ -17,7 +17,7 @@ def __():
 def __(mo):
     mo.md(
         r"""
-    # Irrational Ratio ([repo](https://github.com/samcarey/marimo-toys/blob/main/irrational_ratio.py))
+    # [Irrational Ratio](https://github.com/samcarey/marimo-toys/blob/main/notebooks/irrational_ratio.py)
         
     Calculate a ratio of irrational numbers that equals the input number after being rounded down:
 
