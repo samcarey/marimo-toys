@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.1.77"
+__generated_with = "0.1.78"
 app = marimo.App()
 
 
@@ -17,6 +17,8 @@ def __():
 def __(mo):
     mo.md(
         r"""
+    # Irrational Ratio ([repo](https://github.com/samcarey/marimo-toys/blob/main/irrational_ratio.py))
+        
     Calculate a ratio of irrational numbers that equals the input number after being rounded down:
 
     \[
