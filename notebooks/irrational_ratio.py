@@ -17,8 +17,9 @@ def __():
 def __(mo):
     mo.md(
         r"""
+        <br>
     # [Irrational Ratio](https://github.com/samcarey/marimo-toys/blob/main/notebooks/irrational_ratio.py)
-        
+
     Calculate a ratio of irrational numbers that equals the input number after being rounded down:
 
     \[
@@ -32,7 +33,7 @@ def __(mo):
 @app.cell
 def __(mo):
     x = mo.ui.text(label="x: ", value="6.76923")
-    x
+    mo.center(x)
     return x,
 
 
@@ -69,36 +70,17 @@ def __(dif):
 
 
 @app.cell
-def __(
-    den,
-    dif,
-    math,
-    mo,
-    monotonic_residuals,
-    num,
-    ratio,
-    residual,
-    time,
-    val,
-):
+def __(den, dif, math, mo, num, ratio, time, val):
     start = time.time()
     max_compute_seconds = 5
     success = False
     while not success:
         for _ in range(10000):
-            _ratio = (math.pi * num[0]) / (math.e * den[0])
-            _residual = _ratio - val
+            ratio[0] = (math.pi * num[0]) / (math.e * den[0])
+            _residual = ratio[0] - val
             if _residual >= 0 and _residual < dif:
                 success = True
                 break
-            if len(residual) == 0:
-                residual.append(_residual)
-                monotonic_residuals.append(_residual)
-            else:
-                if abs(_residual) < abs(residual[-1]):
-                    monotonic_residuals.append(_residual)
-
-            ratio[0] = _ratio
             if ratio[0] < val:
                 num[0] = num[0] + 1
             elif ratio[0] > val:
@@ -108,18 +90,31 @@ def __(
                 (time.time() - start) > max_compute_seconds,
                 f"""That takes more than {max_compute_seconds} seconds... you gotta pick an easier number (with fewer digits)""",
             )
+    return max_compute_seconds, start, success
 
+
+@app.cell
+def __(den, mo, num, ratio, success, x):
     success
+    x_str = str(x.value)
+    x_str_len = len(x_str)
+    ratio_str = str(ratio[0])
+    ratio_last_digit_index = x_str_len
+    for c in ratio_str[x_str_len:]:
+        ratio_last_digit_index += 1
+        if c != "0":
+            break
+    ratio_str = ratio_str[:ratio_last_digit_index]
     mo.md(
         r"""
     \[
-        {x} \approx {ratio} = \frac{{ {num}  \pi}}{{ {den} e}} 
+        {x} \approx {ratio}... = \frac{{ {num}  \pi}}{{ {den} e}} 
     \]
     """.format(
-            x=val, ratio=_ratio, num=num[0], den=den[0]
+            x=x_str, ratio=ratio_str, num=num[0], den=den[0]
         )
     )
-    return max_compute_seconds, start, success
+    return c, ratio_last_digit_index, ratio_str, x_str, x_str_len
 
 
 @app.cell
